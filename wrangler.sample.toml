@@ -1,0 +1,38 @@
+name               = "web-proxy"
+main               = "src/index.ts"
+compatibility_date = "2025-02-04"
+compatibility_flags = [ "nodejs_compat" ]
+
+# For local development, use `wrangler dev` to start a local server
+[dev]
+ip             = "0.0.0.0"
+port           = 8787
+local_protocol = "http"
+
+[vars]
+# url withour tailing slash
+proxy_baseurl = "http://example.com"
+proxy_host    = "example.com"
+
+[vars.request]
+delete_headers = []
+[vars.request.add_headers]
+# "Authorization" = "Bearer token"
+
+[vars.response]
+delete_headers = []
+[vars.response.add_headers]
+# "Access-Control-Allow-Origin" = "*"
+
+[vars.cors]
+# When set to enable, the server will hijack all the OPTIONS requests
+hijack_options = true
+# Set to false or ARRAY of allowed origins.
+# If set to arrat. the server will test the request origin# and return its
+# value, otherwise take default actions.
+# This configuration will replace the "Access-Control-Allow-Origin" header when
+# taking effect. It has the highest priority.
+advanced_allow_origins = false
+# Response headers for the OPTIONS requests if hijacking
+[vars.cors.options_headers]
+"Access-Control-Allow-Origin" = "*"
