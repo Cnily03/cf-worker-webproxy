@@ -147,7 +147,8 @@ function http_fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
 function fetch(input: RequestInfo, init?: RequestInit): Promise<Response> {
     const request = new Request(input, init);
     const u = new URL(request.url);
-    if (u.protocol === "http:") {
+    const header_host = new Request(input, init).headers.get('Host');
+    if (u.protocol === "http:" && header_host && header_host !== u.host) {
         return http_fetch(input, init);
     } else {
         return globalThis.fetch(input, init);
